@@ -4,6 +4,7 @@ import routes from './routes';
 import mongoose from 'mongoose';
 import dotenv from 'dotenv';
 dotenv.config();
+
 const app = express();
 const {
   USER_DATA_BASE,
@@ -11,6 +12,7 @@ const {
   DATA_BASE,
   PORT
 } = process.env;
+
 const connectionString =
 `mongodb+srv://${USER_DATA_BASE}:${PASSWORD_DATA_BASE}@${DATA_BASE}/?retryWrites=true&w=majority`;
   
