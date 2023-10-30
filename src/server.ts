@@ -3,6 +3,7 @@ import express from 'express';
 import routes from './routes';
 import mongoose from 'mongoose';
 import dotenv from 'dotenv';
+import { errorMiddleware } from './middlewares/errorHandlerMiddleware';
 dotenv.config();
 
 const app = express();
@@ -35,6 +36,7 @@ async function connectToDatabase(): Promise<void> {
 function startExpressServer(): void {
   app.use(express.json());
   app.use('/api', routes);
+  app.use(errorMiddleware());
 
   app.listen(PORT, () => {
     console.log(`Server is running at http://localhost:${PORT}`);

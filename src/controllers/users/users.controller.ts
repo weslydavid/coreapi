@@ -1,26 +1,41 @@
-import { Request, Response } from 'express';
+import { Request, Response, NextFunction } from 'express';
 import userServices from '../../services/users/users.service';
+import validateSchema from '../../middlewares/validateSchema';
+import userSchemas from './users.schema';
 
 /**
- * Obtiene una lista de usuarios.
- * @param {Request} req - Objeto de solicitud de Express.
- * @param {Response} res - Objeto de respuesta de Express.
+ * Get all users.
+ * @param {Request} req - Object of request of Express.
+ * @param {Response} res - Object of response of Express.
  */
-async function getUsers(req: Request, res: Response): Promise<void> {
+async function getUsersHandler(
+  req: Request,
+  res: Response,
+  next: NextFunction,
+): Promise<void> {
   try {
-    const users = await userServices.getUsers();
-    res.status(200).json(users);
-  } catch (error) {
-    const err = error as Error;
-    res.status(500).send({
-      message: err.message,
-      name: '[getUsers]',
+    const { page = 1, limit = 10 } = req.query;
+    const limitNumber = Number(limit);
+    const skip = (Number(page) - 1) * limitNumber;
+
+    const users = await userServices.getUsers(skip, limitNumber);
+    const count = await userServices.countUsers();
+    const totalPages = Math.ceil(count / limitNumber);
+
+    res.status(200).json({
+      data: users,
+      limit: Number(limit),
+      page: Number(page),
+      totalItems: count,
+      totalPages,
     });
+  } catch (error) {
+    next(error);
   }
 }
 
 const usersController = {
-  getUsers,
+  getUsers: [validateSchema(userSchemas.getAllUsers), getUsersHandler],
 };
 
 export default usersController;
