@@ -7,8 +7,17 @@ const getAllUsers = Joi.object({
   }),
 });
 
+const register = Joi.object({
+  body: Joi.object({
+    email: Joi.string().email().required(),
+    name: Joi.string().required(),
+    password: Joi.string().required(),
+  }).required(),
+});
+
 const userSchemas = {
   getAllUsers,
+  register,
 };
 
 export default userSchemas;

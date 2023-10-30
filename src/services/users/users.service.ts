@@ -11,8 +11,20 @@ const countUsers = async (): Promise<number> => {
   return count;
 };
 
+const getUserByEmail = async (email: string): Promise<IUser | null> => {
+  const users = await User.findOne({ email }).exec();
+  return users;
+};
+
+const createUser = async (user: IUser): Promise<IUser> => {
+  const createdUser = await User.create(user);
+  return createdUser;
+};
+
 const repo = {
   countUsers,
+  createUser,
+  getUserByEmail,
   getUsers,
 };
 
