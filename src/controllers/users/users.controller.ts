@@ -1,17 +1,11 @@
 /* eslint-disable require-jsdoc */
 import { Request, Response, NextFunction } from 'express';
-import jwt from 'jsonwebtoken';
 import bcrypt from 'bcryptjs';
 import userServices from '../../services/users/users.service';
 import authServices from '../../services/auth/auth.service';
 import validateSchema from '../../middlewares/validateSchema';
 import userSchemas from './users.schema';
 
-/**
- * Get all users.
- * @param {Request} req - Object of request of Express.
- * @param {Response} res - Object of response of Express.
- */
 async function getUsersHandler(
   req: Request,
   res: Response,
