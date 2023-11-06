@@ -1,6 +1,9 @@
-import { Document, Types } from 'mongoose';
+import { Types } from 'mongoose';
 
-export interface IUser extends Document {
-  _id: Types.ObjectId;
+export interface IUser {
+  _id?: Types.ObjectId;
   name: string;
+  email: string;
+  password: string;
+  token?: string;
 }
