@@ -7,6 +7,12 @@ const getAllUsers = Joi.object({
   }),
 });
 
+const getUserById = Joi.object({
+  params: Joi.object({
+    id: Joi.string().required().hex().length(24),
+  }),
+});
+
 const register = Joi.object({
   body: Joi.object({
     email: Joi.string().email().required(),
@@ -15,16 +21,10 @@ const register = Joi.object({
   }).required(),
 });
 
-const getUserById = Joi.object({
-  params: Joi.object({
-    id: Joi.string().required().hex().length(24),
-  }),
-});
-
 const userSchemas = {
   getAllUsers,
-  register,
   getUserById,
+  register,
 };
 
 export default userSchemas;

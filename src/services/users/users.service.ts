@@ -6,6 +6,11 @@ const getUsers = async (skip: number, limit: number): Promise<IUser[]> => {
   return users;
 };
 
+const getUserById = async (userId: string): Promise<IUser | null> => {
+  const users = await User.findById({ userId }).exec();
+  return users;
+};
+
 const countUsers = async (): Promise<number> => {
   const count = await User.countDocuments();
   return count;
@@ -19,11 +24,6 @@ const getUserByEmail = async (email: string): Promise<IUser | null> => {
 const createUser = async (user: IUser): Promise<IUser> => {
   const createdUser = await User.create(user);
   return createdUser;
-};
-
-const getUserById = async (userId: string): Promise<IUser | null> => {
-  const users = await User.findById({ userId }).exec();
-  return users;
 };
 
 const repo = {

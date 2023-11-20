@@ -50,7 +50,8 @@ async function getUserByIdHandler(
   } catch (error) {
     const err = error as Error;
     res.status(500).send({
-      message: err.message,
+      message: 'estas entrando a este catch porque se presentó un error',
+      //message: err.message,
       name: '[getUserById]'
     })
     next(error);
@@ -98,8 +99,8 @@ async function registerHandler(
 
 const usersController = {
   getUsers: [validateSchema(userSchemas.getAllUsers), getUsersHandler],
-  register: [validateSchema(userSchemas.register), registerHandler],
   getUserById: [validateSchema(userSchemas.getUserById), getUserByIdHandler],
+  register: [validateSchema(userSchemas.register), registerHandler],
 };
 
 export default usersController;
