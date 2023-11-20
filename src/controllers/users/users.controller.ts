@@ -32,6 +32,31 @@ async function getUsersHandler(
   }
 }
 
+async function getUserByIdHandler(
+  req: Request,
+  res: Response,
+  next: NextFunction,
+): Promise<void> {
+  try {
+    const userId = req.params.id; // Se obtiene el id del usuario del parámetro de la ruta
+    const user = await userServices.getUserById(userId);
+
+    if(!user){
+      res.status(400).json({ message: 'User not found' });
+      return;
+    }
+
+    res.status(200).json(user);
+  } catch (error) {
+    const err = error as Error;
+    res.status(500).send({
+      message: err.message,
+      name: '[getUserById]'
+    })
+    next(error);
+  }
+}
+
 async function registerHandler(
   req: Request,
   res: Response,
@@ -74,6 +99,7 @@ async function registerHandler(
 const usersController = {
   getUsers: [validateSchema(userSchemas.getAllUsers), getUsersHandler],
   register: [validateSchema(userSchemas.register), registerHandler],
+  getUserById: [validateSchema(userSchemas.getUserById), getUserByIdHandler],
 };
 
 export default usersController;

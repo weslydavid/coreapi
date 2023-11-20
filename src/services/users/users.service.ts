@@ -21,11 +21,17 @@ const createUser = async (user: IUser): Promise<IUser> => {
   return createdUser;
 };
 
+const getUserById = async (userId: string): Promise<IUser | null> => {
+  const users = await User.findById({ userId }).exec();
+  return users;
+};
+
 const repo = {
   countUsers,
   createUser,
   getUserByEmail,
   getUsers,
+  getUserById,
 };
 
 export default repo;

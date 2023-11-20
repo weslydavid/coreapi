@@ -15,9 +15,16 @@ const register = Joi.object({
   }).required(),
 });
 
+const getUserById = Joi.object({
+  params: Joi.object({
+    id: Joi.string().required().hex().length(24),
+  }),
+});
+
 const userSchemas = {
   getAllUsers,
   register,
+  getUserById,
 };
 
 export default userSchemas;
