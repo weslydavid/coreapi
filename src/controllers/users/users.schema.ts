@@ -7,6 +7,12 @@ const getAllUsers = Joi.object({
   }),
 });
 
+const getUserById = Joi.object({
+  params: Joi.object({
+    id: Joi.string().required(),
+  }),
+});
+
 const register = Joi.object({
   body: Joi.object({
     email: Joi.string().email().required(),
@@ -17,6 +23,7 @@ const register = Joi.object({
 
 const userSchemas = {
   getAllUsers,
+  getUserById,
   register,
 };
 

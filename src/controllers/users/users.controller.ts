@@ -10,7 +10,7 @@ async function getUsersHandler(
   req: Request,
   res: Response,
   next: NextFunction,
-): Promise<void> {
+) {
   try {
     const { page = 1, limit = 10 } = req.query;
     const limitNumber = Number(limit);
@@ -20,13 +20,32 @@ async function getUsersHandler(
     const count = await userServices.countUsers();
     const totalPages = Math.ceil(count / limitNumber);
 
-    res.status(200).json({
+    return res.status(200).json({
       data: users,
       limit: Number(limit),
       page: Number(page),
       totalItems: count,
       totalPages,
     });
+  } catch (error) {
+    next(error);
+  }
+}
+
+async function getUserByIdHandler(
+  req: Request,
+  res: Response,
+  next: NextFunction,
+) {
+  try {
+    const userId = req.params.id;
+    const user = await userServices.getUserById(userId);
+
+    if (!user) {
+      return res.status(404).json({ message: 'User not found' });
+    }
+
+    return res.status(200).json(user);
   } catch (error) {
     next(error);
   }
@@ -65,13 +84,14 @@ async function registerHandler(
     // save user token
     user.token = token;
 
-    res.status(201).json(user);
+    return res.status(201).json(user);
   } catch (error) {
     next(error);
   }
 }
 
 const usersController = {
+  getUserById: [validateSchema(userSchemas.getUserById), getUserByIdHandler],
   getUsers: [validateSchema(userSchemas.getAllUsers), getUsersHandler],
   register: [validateSchema(userSchemas.register), registerHandler],
 };

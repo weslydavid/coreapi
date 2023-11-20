@@ -6,6 +6,11 @@ const getUsers = async (skip: number, limit: number): Promise<IUser[]> => {
   return users;
 };
 
+const getUserById = async (userId: string): Promise<IUser | null> => {
+  const users = await User.findById(userId);
+  return users;
+};
+
 const countUsers = async (): Promise<number> => {
   const count = await User.countDocuments();
   return count;
@@ -26,6 +31,7 @@ const repo = {
   createUser,
   getUserByEmail,
   getUsers,
+  getUserById,
 };
 
 export default repo;
