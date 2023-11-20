@@ -7,7 +7,7 @@ const getUsers = async (skip: number, limit: number): Promise<IUser[]> => {
 };
 
 const getUserById = async (userId: string): Promise<IUser | null> => {
-  const users = await User.findById({ userId }).exec();
+  const users = await User.findById(userId);
   return users;
 };
 

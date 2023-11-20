@@ -50,8 +50,7 @@ async function getUserByIdHandler(
   } catch (error) {
     const err = error as Error;
     res.status(500).send({
-      message: 'estas entrando a este catch porque se presentó un error',
-      //message: err.message,
+      message: err.message,
       name: '[getUserById]'
     })
     next(error);
