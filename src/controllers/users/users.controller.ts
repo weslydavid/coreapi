@@ -10,7 +10,7 @@ async function getUsersHandler(
   req: Request,
   res: Response,
   next: NextFunction,
-): Promise<void> {
+) {
   try {
     const { page = 1, limit = 10 } = req.query;
     const limitNumber = Number(limit);
@@ -20,7 +20,7 @@ async function getUsersHandler(
     const count = await userServices.countUsers();
     const totalPages = Math.ceil(count / limitNumber);
 
-    res.status(200).json({
+    return res.status(200).json({
       data: users,
       limit: Number(limit),
       page: Number(page),
@@ -36,23 +36,17 @@ async function getUserByIdHandler(
   req: Request,
   res: Response,
   next: NextFunction,
-): Promise<void> {
+) {
   try {
-    const userId = req.params.id; // Se obtiene el id del usuario del parámetro de la ruta
+    const userId = req.params.id;
     const user = await userServices.getUserById(userId);
 
-    if(!user){
-      res.status(400).json({ message: 'User not found' });
-      return;
+    if (!user) {
+      return res.status(404).json({ message: 'User not found' });
     }
 
-    res.status(200).json(user);
+    return res.status(200).json(user);
   } catch (error) {
-    const err = error as Error;
-    res.status(500).send({
-      message: err.message,
-      name: '[getUserById]'
-    })
     next(error);
   }
 }
@@ -90,15 +84,15 @@ async function registerHandler(
     // save user token
     user.token = token;
 
-    res.status(201).json(user);
+    return res.status(201).json(user);
   } catch (error) {
     next(error);
   }
 }
 
 const usersController = {
-  getUsers: [validateSchema(userSchemas.getAllUsers), getUsersHandler],
   getUserById: [validateSchema(userSchemas.getUserById), getUserByIdHandler],
+  getUsers: [validateSchema(userSchemas.getAllUsers), getUsersHandler],
   register: [validateSchema(userSchemas.register), registerHandler],
 };
 

@@ -9,7 +9,7 @@ const getAllUsers = Joi.object({
 
 const getUserById = Joi.object({
   params: Joi.object({
-    id: Joi.string().required().hex().length(24),
+    id: Joi.string().required(),
   }),
 });
 
