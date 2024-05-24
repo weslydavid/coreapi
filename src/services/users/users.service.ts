@@ -30,8 +30,8 @@ const repo = {
   countUsers,
   createUser,
   getUserByEmail,
-  getUsers,
   getUserById,
+  getUsers,
 };
 
 export default repo;

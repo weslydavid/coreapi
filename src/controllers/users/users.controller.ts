@@ -91,9 +91,9 @@ async function registerHandler(
 }
 
 const usersController = {
-  getUserById: [validateSchema(userSchemas.getUserById), getUserByIdHandler],
-  getUsers: [validateSchema(userSchemas.getAllUsers), getUsersHandler],
-  register: [validateSchema(userSchemas.register), registerHandler],
+  getUserByIdHandler,
+  getUsersHandler,
+  registerHandler,
 };
 
 export default usersController;

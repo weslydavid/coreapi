@@ -7,9 +7,9 @@ import { errorMiddleware } from './middlewares/errorHandlerMiddleware';
 dotenv.config();
 
 const app = express();
-const { USER_DATA_BASE, PASSWORD_DATA_BASE, DATA_BASE, PORT } = process.env;
+const { USER_DATABASE, PASSWORD_DATABASE, DATABASE, PORT } = process.env;
 
-const connectionString = `mongodb+srv://${USER_DATA_BASE}:${PASSWORD_DATA_BASE}@${DATA_BASE}/?retryWrites=true&w=majority`;
+const connectionString = `mongodb+srv://${USER_DATABASE}:${PASSWORD_DATABASE}@$studio-core-api.npz1eci.mongodb.net/${DATABASE}?retryWrites=true&w=majority`;
 
 async function connectToDatabase(): Promise<void> {
   try {
