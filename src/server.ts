@@ -7,13 +7,19 @@ import { errorMiddleware } from './middlewares/errorHandlerMiddleware';
 dotenv.config();
 
 const app = express();
-const { USER_DATABASE, PASSWORD_DATABASE, DATABASE, PORT } = process.env;
+const { USER_DATABASE, PASSWORD_DATABASE, DATABASE, PORT, NODE_ENV } =
+  process.env;
 
 const connectionString = `mongodb+srv://${USER_DATABASE}:${PASSWORD_DATABASE}@$studio-core-api.npz1eci.mongodb.net/${DATABASE}?retryWrites=true&w=majority`;
 
+const uri =
+  NODE_ENV === 'development'
+    ? `mongodb://mongo:27017/${DATABASE}`
+    : connectionString;
+
 async function connectToDatabase(): Promise<void> {
   try {
-    await mongoose.connect(connectionString);
+    await mongoose.connect(uri);
     console.log('DB \x1b[34m%s\x1b[0m', 'Online!!');
   } catch (error) {
     if (error instanceof Error) {

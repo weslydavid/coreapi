@@ -1,0 +1,25 @@
+# node
+node_modules
+
+# git
+.git*
+
+# logs
+.log
+npm-debug.log
+
+# runtime
+pids
+*.pid
+*.seed
+
+# idea
+.idea
+
+# OSX
+*.DS_STORE
+.AppleDouble
+.LSOverride
+
+# volumes
+data

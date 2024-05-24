@@ -1,0 +1,30 @@
+version: '3.8'
+
+services:
+  core-api:
+    container_name: "api"
+    build: .
+    ports:
+      - '3000:3000'
+    env_file:
+      - .env
+    depends_on:
+      - mongo
+    environment:
+      - NODE_ENV=${NODE_ENV}
+      - DATABASE=${DATABASE}
+      - PORT=${PORT}
+      - USER_DATABASE=${USER_DATABASE}
+      - PASSWORD_DATABASE=${PASSWORD_DATABASE}
+      - TOKEN=${TOKEN}
+
+  mongo:
+    container_name: "mongo"
+    image: mongo:4.4
+    ports:
+      - '27017:27017'
+    volumes:
+      - mongo-data:/data/db
+
+volumes:
+  mongo-data:
