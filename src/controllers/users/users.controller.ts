@@ -3,8 +3,6 @@ import { Request, Response, NextFunction } from 'express';
 import bcrypt from 'bcryptjs';
 import userServices from '../../services/users/users.service';
 import authServices from '../../services/auth/auth.service';
-import validateSchema from '../../middlewares/validateSchema';
-import userSchemas from './users.schema';
 
 async function getUsersHandler(
   req: Request,
