@@ -1,12 +1,8 @@
-/* eslint-disable require-jsdoc */
-import express from 'express';
-import routes from './routes';
+import app from './app';
 import mongoose from 'mongoose';
 import dotenv from 'dotenv';
-import { errorMiddleware } from './middlewares/errorHandlerMiddleware';
 dotenv.config();
 
-const app = express();
 const { USER_DATABASE, PASSWORD_DATABASE, DATABASE, PORT, NODE_ENV } =
   process.env;
 
@@ -17,6 +13,13 @@ const uri =
     ? `mongodb://mongo:27017/${DATABASE}`
     : connectionString;
 
+/**
+ * Connect to the database
+ * @returns void
+ * @async
+ * @function connectToDatabase
+ * @throws {Error} Database connection error
+ */
 async function connectToDatabase(): Promise<void> {
   try {
     await mongoose.connect(uri);
@@ -29,19 +32,17 @@ async function connectToDatabase(): Promise<void> {
   }
 }
 
-function startExpressServer(): void {
-  app.use(express.json());
-  app.use('/api', routes);
-  app.use(errorMiddleware());
-
+/**
+ * Start the server
+ * @returns void
+ * @async
+ * @function startServer
+ */
+async function startServer(): Promise<void> {
+  await connectToDatabase();
   app.listen(PORT, () => {
     console.log(`Server is running at http://localhost:${PORT}`);
   });
-}
-
-async function startServer(): Promise<void> {
-  await connectToDatabase();
-  startExpressServer();
 }
 
 startServer();
